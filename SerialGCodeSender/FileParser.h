@@ -6,10 +6,7 @@
 #include <QByteArray>
 #include <QList>
 
-namespace fileOperationError {
-const QString FILE_NAME_IS_EMPTY{"File name is empty."};
-const QString FILE_OPEN_ERROR{"File open error."};
-}
+
 
 class FileParser : public QObject
 {

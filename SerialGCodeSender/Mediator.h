@@ -6,6 +6,7 @@
 
 #include "InOutStreamObserver.h"
 #include "FileParser.h"
+#include "SerialTransceiver.h"
 
 class Mediator : public QObject
 {
@@ -25,6 +26,8 @@ private:
 
 
 signals:
+    void sendMessage(QString msg);
+    void startPrintProcess();
 
 public slots:
 
@@ -35,6 +38,7 @@ private:
 
     QPointer<FileParser> fileParser_;
     QPointer<InOutStreamObserver> inOutStream_;
+    QPointer<SerialTransceiver> serialTransceiver_;
 };
 
 #endif // MEDIATOR_H

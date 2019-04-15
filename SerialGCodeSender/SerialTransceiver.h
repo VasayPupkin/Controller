@@ -13,9 +13,11 @@ public:
     explicit SerialTransceiver(QObject *parent = nullptr);
     ~SerialTransceiver();
 
-    void setupSerialPort(const QString& serialPort, int baudRate);
+    bool openSerialPort(const QString& serialPort, int baudRate);
 
 signals:
+    void sendMessage(QString msg);
+    void startNextPrintStep();
 
 public slots:
     void setDataQueue(QList<QByteArray> list);

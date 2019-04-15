@@ -1,5 +1,6 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include "SerialTransceiver.h"
+#include "Constants.h"
 
 SerialTransceiver::SerialTransceiver(QObject *parent) : QObject(parent)
 {
@@ -8,17 +9,22 @@ SerialTransceiver::SerialTransceiver(QObject *parent) : QObject(parent)
 
 SerialTransceiver::~SerialTransceiver()
 {
+    serialPort_.close();
 }
 
-void SerialTransceiver::setupSerialPort(const QString &serialPort, int baudRate)
+bool SerialTransceiver::openSerialPort(const QString &serialPort, int baudRate)
 {
+//    QSerialPortInfo portInfo;
+
     serialPort_.setPortName(serialPort);
     serialPort_.setBaudRate(baudRate);
-    serialPort_.open(QIODevice::ReadWrite);
-//    serialPort_.setPort(*serialPortInfo_);
-//    baudRate_ = baudRate;
-//    serialPort_.setBaudRate(baudRate_);
-//    connect(&serialPort_, SIGNAL(readyRead()),SLOT(dataReceived()));
+    if (serialPort_.open(QIODevice::ReadWrite)){
+        connect(&serialPort_, &QSerialPort::readyRead, this, &SerialTransceiver::dataReceived);
+        emit sendMessage(constants::serialTransceiver::PORT_IS_OPEN);
+        return true;
+    }
+    emit sendMessage(constants::serialTransceiver::PORT_IS_NOT_OPEN);
+    return false;
 }
 
 void SerialTransceiver::setDataQueue(QList<QByteArray> list)
@@ -28,11 +34,17 @@ void SerialTransceiver::setDataQueue(QList<QByteArray> list)
 
 void SerialTransceiver::sendData()
 {
-    if (!dataQueue_.isEmpty())
-        serialPort_.    write(dataQueue_.dequeue());
+    if (!dataQueue_.isEmpty()){
+        emit sendMessage(constants::serialTransceiver::CMD_IS_SEND + dataQueue_.head());
+        serialPort_.write(dataQueue_.dequeue());
+    }
+    else
+        emit sendMessage(constants::serialTransceiver::QUEUE_IS_EMPTY);
 }
 
 void SerialTransceiver::dataReceived()
 {
-
+    QByteArray data = serialPort_.readAll();
+    emit sendMessage(constants::serialTransceiver::DATA_IS_RECIVED + data);
+    //TODO : if recieved data == ok? then emit startNextPrintStep();
 }

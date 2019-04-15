@@ -31,4 +31,5 @@ HEADERS += \
     Mediator.h \
     SerialTransceiver.h \
     FileParser.h \
-    InOutStreamObserver.h
+    InOutStreamObserver.h \
+    Constants.h

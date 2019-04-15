@@ -1,5 +1,6 @@
 #include <QTextStream>
 #include "FileParser.h"
+#include "Constants.h"
 
 FileParser::FileParser(QObject *parent) : QObject(parent)
 {
@@ -9,7 +10,7 @@ FileParser::FileParser(QObject *parent) : QObject(parent)
 void FileParser::parseGCodeFile(const QString filePath)
 {
     if (filePath.isEmpty()) {
-        emit fileOpenError(fileOperationError::FILE_NAME_IS_EMPTY);
+        emit fileOpenError(constants::fileOperations::FILE_NAME_IS_EMPTY);
         return;
     }
     gCodeFile_.setFileName(filePath);
@@ -25,10 +26,10 @@ void FileParser::parseGCodeFile(const QString filePath)
             if (!tmpStr.isEmpty())
                 gCodeByteArray_.push_back(tmpStr.toStdString().c_str());
         }
-        emit fileOpenError("File is parsed");
+        emit fileOpenError(constants::fileOperations::FILE_IS_OPEN);
         emit fileIsParsed(gCodeByteArray_);
         gCodeFile_.close();
     }
     else
-        emit fileOpenError(fileOperationError::FILE_OPEN_ERROR);
+        emit fileOpenError(constants::fileOperations::FILE_OPEN_ERROR);
 }

@@ -20,15 +20,30 @@ Mediator::Mediator(const QString &portName,
 
 void Mediator::run()
 {
+    //TODO : check true/false of parseGCodeFile
     fileParser_.data()->parseGCodeFile(fileName_);
+
+    bool ok = false;
+    int baudRate = baudRate_.toInt(&ok);
+    if (!ok){
+        emit sendMessage("to int not OK!!!\n");
+        return;
+    }
+    if (serialTransceiver_.data()->openSerialPort(portName_,baudRate))
+        emit startPrintProcess();
 }
 
 void Mediator::createObjects(){
     fileParser_ = new FileParser();
     inOutStream_ = new InOutStreamObserver();
+    serialTransceiver_ = new SerialTransceiver();
 }
 
 void Mediator::connectObjects(){
+    connect(this, SIGNAL(sendMessage(QString)), inOutStream_.data(), SLOT(printToStdOut(QString)));
+
     connect(fileParser_.data(), SIGNAL(fileOpenError(QString)),
             inOutStream_.data(), SLOT(printToStdOut(QString)));
+
+    connect(serialTransceiver_.data(), SIGNAL(sendMessage(QString)),inOutStream_.data(), SLOT(printToStdOut(QString)));
 }
