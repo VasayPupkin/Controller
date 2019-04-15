@@ -29,8 +29,9 @@ void Mediator::run()
         emit sendMessage("to int not OK!!!\n");
         return;
     }
-    if (serialTransceiver_.data()->openSerialPort(portName_,baudRate))
+    if (serialTransceiver_.data()->openSerialPort(portName_,baudRate)){
         emit startPrintProcess();
+    }
 }
 
 void Mediator::createObjects(){
@@ -41,9 +42,13 @@ void Mediator::createObjects(){
 
 void Mediator::connectObjects(){
     connect(this, SIGNAL(sendMessage(QString)), inOutStream_.data(), SLOT(printToStdOut(QString)));
+    connect(this, SIGNAL(startPrintProcess()), serialTransceiver_.data(), SLOT(sendData()));
 
     connect(fileParser_.data(), SIGNAL(fileOpenError(QString)),
             inOutStream_.data(), SLOT(printToStdOut(QString)));
+    connect(fileParser_.data(), SIGNAL(fileIsParsed(QList<QByteArray>)),
+            serialTransceiver_.data(), SLOT(setDataQueue(QList<QByteArray>)));
 
     connect(serialTransceiver_.data(), SIGNAL(sendMessage(QString)),inOutStream_.data(), SLOT(printToStdOut(QString)));
+    connect(serialTransceiver_.data(), SIGNAL(startNextPrintStep()), serialTransceiver_.data(), SLOT(sendData()));
 }

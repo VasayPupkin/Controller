@@ -29,7 +29,10 @@ bool SerialTransceiver::openSerialPort(const QString &serialPort, int baudRate)
 
 void SerialTransceiver::setDataQueue(QList<QByteArray> list)
 {
-    dataQueue_.fromStdList(list.toStdList());
+    for(auto element : list){
+        dataQueue_.enqueue(element);
+    }
+//    dataQueue_.fromStdList(list.toStdList());
 }
 
 void SerialTransceiver::sendData()
@@ -47,4 +50,10 @@ void SerialTransceiver::dataReceived()
     QByteArray data = serialPort_.readAll();
     emit sendMessage(constants::serialTransceiver::DATA_IS_RECIVED + data);
     //TODO : if recieved data == ok? then emit startNextPrintStep();
+    if (!data.isEmpty()) {
+        for (auto i = 0; i < 100000;++i) {
+
+        }
+        emit startNextPrintStep();
+    }
 }
