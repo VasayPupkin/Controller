@@ -20,7 +20,8 @@ SOURCES += \
     Mediator.cpp \
     SerialTransceiver.cpp \
     FileParser.cpp \
-    InOutStreamObserver.cpp
+    InOutStreamObserver.cpp \
+    AppSettingsManager.cc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -32,4 +33,5 @@ HEADERS += \
     SerialTransceiver.h \
     FileParser.h \
     InOutStreamObserver.h \
-    Constants.h
+    Constants.h \
+    AppSettingsManager.h
