@@ -23,7 +23,8 @@ const QString DATA_IS_RECIVED{"Data is recieved : "};
 
 namespace appSettings {
 //Global project name, org.name etc.
-const QString SYSTEM_INI_PATH{QCoreApplication::applicationDirPath()};
+//const QString SYSTEM_INI_PATH{QCoreApplication::applicationDirPath()};
+
 
 //Groups
 const QString SERIAL_TRANSCEIVER{"SERIAL_TRANSCEIVER"};
@@ -49,10 +50,10 @@ const int DEFAULT_STOP_BITS{static_cast<int>(QSerialPort::StopBits::OneStop)};
 
 //Download manager
 const QString FILE_DOWNLOAD_LINK{"fileDownloadLink"};
-const QString DOWNLOADED_FILE_PATH{QCoreApplication::applicationDirPath()};
+const QString DOWNLOADED_FILE_PATH{"downloadedFilePath"};
 
 const QString DEFAULT_FILE_DOWNLOAD_LINK{"http://printit.cloud/test.gcode"};
-const QString DEFAULT_DOWNLOADED_FILE_PATH{QCoreApplication::applicationDirPath()};
+const QString DEFAULT_DOWNLOADED_FILE_PATH{"/home/oleg/GFodeFile"};//need to resolve this, auto create dir for downloaded files
 
 }
 

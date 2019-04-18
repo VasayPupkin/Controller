@@ -20,6 +20,8 @@ Mediator::Mediator(const QString &portName,
 
 void Mediator::run()
 {
+    //Write/read settings for app
+    appSettingsManager_.data()->writeDefaultSetting();
     //TODO : check true/false of parseGCodeFile
     fileParser_.data()->parseGCodeFile(fileName_);
 
@@ -38,6 +40,7 @@ void Mediator::createObjects(){
     fileParser_ = new FileParser();
     inOutStream_ = new InOutStreamObserver();
     serialTransceiver_ = new SerialTransceiver();
+    appSettingsManager_ = new AppSettingsManager();
 }
 
 void Mediator::connectObjects(){

@@ -1,6 +1,8 @@
 #ifndef APPSETTINGSMANAGER_H
 #define APPSETTINGSMANAGER_H
 
+#include <tuple>
+
 #include <QObject>
 #include <QSettings>
 
@@ -11,10 +13,13 @@ public:
     explicit AppSettingsManager(QObject *parent = nullptr);
 
 signals:
-    emit void sendDownloadManagerInfo(QString link, QString pathToSave);
+    void sendDownloadManagerInfo(QString link, QString pathToSave);
+    void sendFileParserInfo(QString filePath);
+    void sendSerialPortInfo(std::tuple<QString,int,int,int,int,int> serialSettings);
 
 public slots:
     void readSettings();
+    void writeDefaultSetting();
 
 private:
     QSettings appSettings;
