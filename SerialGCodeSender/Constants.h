@@ -24,7 +24,9 @@ const QString DATA_IS_RECIVED{"Data is recieved : "};
 namespace appSettings {
 //Global project name, org.name etc.
 //const QString SYSTEM_INI_PATH{QCoreApplication::applicationDirPath()};
-
+const QString ORG_NAME{"PrintIt@Co"};
+const QString ORG_DOMAIN{"printit.cloud"};
+const QString APP_NAME{"GCodeSender"};
 
 //Groups
 const QString SERIAL_TRANSCEIVER{"SERIAL_TRANSCEIVER"};

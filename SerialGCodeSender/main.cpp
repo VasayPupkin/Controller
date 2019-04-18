@@ -1,14 +1,15 @@
 #include <QCoreApplication>
 #include <iostream>
 
+#include "Constants.h"
 #include "Mediator.h"
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setOrganizationName("PrintIt@Co");
-    QCoreApplication::setOrganizationDomain("printit.cloud");
-    QCoreApplication::setApplicationName("GCodeSender");
+    QCoreApplication::setOrganizationName(constants::appSettings::ORG_NAME);
+    QCoreApplication::setOrganizationDomain(constants::appSettings::ORG_DOMAIN);
+    QCoreApplication::setApplicationName(constants::appSettings::APP_NAME);
 
     QCoreApplication a(argc, argv);
 

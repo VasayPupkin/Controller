@@ -1,5 +1,5 @@
 QT -= gui
-QT += serialport
+QT += serialport network
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -21,7 +21,8 @@ SOURCES += \
     SerialTransceiver.cpp \
     FileParser.cpp \
     InOutStreamObserver.cpp \
-    AppSettingsManager.cc
+    AppSettingsManager.cc \
+    DownloadManager.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -34,4 +35,5 @@ HEADERS += \
     FileParser.h \
     InOutStreamObserver.h \
     Constants.h \
-    AppSettingsManager.h
+    AppSettingsManager.h \
+    DownloadManager.h
