@@ -1,3 +1,4 @@
+#include "Constants.h"
 #include "Mediator.h"
 #include <iostream>
 
@@ -21,7 +22,11 @@ Mediator::Mediator(const QString &portName,
 void Mediator::run()
 {
     //Write/read settings for app
-    appSettingsManager_.data()->writeDefaultSetting();
+//    appSettingsManager_.data()->writeDefaultSetting();
+
+    //Download file from server, yet constant link
+    downloadManager_->execute(constants::appSettings::DEFAULT_FILE_DOWNLOAD_LINK);
+
     //TODO : check true/false of parseGCodeFile
     fileParser_.data()->parseGCodeFile(fileName_);
 
@@ -41,6 +46,7 @@ void Mediator::createObjects(){
     inOutStream_ = new InOutStreamObserver();
     serialTransceiver_ = new SerialTransceiver();
     appSettingsManager_ = new AppSettingsManager();
+    downloadManager_ = new DownloadManager();
 }
 
 void Mediator::connectObjects(){
@@ -54,4 +60,6 @@ void Mediator::connectObjects(){
 
     connect(serialTransceiver_.data(), SIGNAL(sendMessage(QString)),inOutStream_.data(), SLOT(printToStdOut(QString)));
     connect(serialTransceiver_.data(), SIGNAL(startNextPrintStep()), serialTransceiver_.data(), SLOT(sendData()));
+
+    connect(downloadManager_.data(), SIGNAL(sendInfoMsg(QString)), inOutStream_.data(), SLOT(printToStdOut(QString)));
 }

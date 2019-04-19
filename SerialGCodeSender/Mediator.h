@@ -8,6 +8,7 @@
 #include "FileParser.h"
 #include "SerialTransceiver.h"
 #include "AppSettingsManager.h"
+#include "DownloadManager.h"
 
 class Mediator : public QObject
 {
@@ -41,6 +42,7 @@ private:
     QPointer<InOutStreamObserver> inOutStream_;
     QPointer<SerialTransceiver> serialTransceiver_;
     QPointer<AppSettingsManager> appSettingsManager_;
+    QPointer<DownloadManager> downloadManager_;
 };
 
 #endif // MEDIATOR_H

@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <QSerialPort>
-#include <QCoreApplication>
+#include <QDir>
 
 namespace constants {
 
@@ -55,7 +55,7 @@ const QString FILE_DOWNLOAD_LINK{"fileDownloadLink"};
 const QString DOWNLOADED_FILE_PATH{"downloadedFilePath"};
 
 const QString DEFAULT_FILE_DOWNLOAD_LINK{"http://printit.cloud/test.gcode"};
-const QString DEFAULT_DOWNLOADED_FILE_PATH{"/home/oleg/GFodeFile"};//need to resolve this, auto create dir for downloaded files
+const QString DEFAULT_DOWNLOADED_FILE_PATH{QDir::homePath() + "/GCodeFile"};
 
 }
 

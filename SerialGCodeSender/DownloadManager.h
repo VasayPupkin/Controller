@@ -1,4 +1,4 @@
-#ifndef DOWNLOADMANAGER_H
+﻿#ifndef DOWNLOADMANAGER_H
 #define DOWNLOADMANAGER_H
 
 #include <QtNetwork>
@@ -11,17 +11,23 @@ class DownloadManager : public QObject
 public:
     explicit DownloadManager(QObject *parent = nullptr);
 
-    void append(const QUrl &url);
-    void append(const QStringList &urls);
+    void doDownload(const QUrl &url);
+    static QString saveFileName(const QUrl &url);
+    bool saveToDisk(const QString &filename, QIODevice *data);
+    static bool isHttpRedirect(QNetworkReply *reply);
+
 signals:
+    void sendInfoMsg(QString msg);
+    void fileIsDownloaded(QString filePath);
 
 public slots:
-    void finished();
+    void execute(const QString &linkToFile);
+    void downloadFinished(QNetworkReply *reply);
+    void sslErrors(const QList<QSslError> &sslErrors);
 
 private:
-    QQueue<QUrl> downloadQueue_;
-
-    int totalCount{0};
+    QNetworkAccessManager manager_;
+    QVector<QNetworkReply *> currentDownloads_;
 };
 
 #endif // DOWNLOADMANAGER_H
