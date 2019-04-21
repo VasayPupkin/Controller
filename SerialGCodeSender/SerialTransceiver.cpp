@@ -39,10 +39,13 @@ void SerialTransceiver::sendData()
 {
     if (!dataQueue_.isEmpty()){
         emit sendMessage(constants::serialTransceiver::CMD_IS_SEND + dataQueue_.head());
+        setPrintStarted(true);
         serialPort_.write(dataQueue_.dequeue());
     }
-    else
+    else{
         emit sendMessage(constants::serialTransceiver::QUEUE_IS_EMPTY);
+        setPrintStarted(false);
+    }
 }
 
 void SerialTransceiver::dataReceived()
@@ -50,7 +53,7 @@ void SerialTransceiver::dataReceived()
     QByteArray data = serialPort_.readAll();
     emit sendMessage(constants::serialTransceiver::DATA_IS_RECIVED + data);
     //TODO : if recieved data == ok? then emit startNextPrintStep();
-    if (!data.isEmpty()) {
+    if (!data.isEmpty() && isPrintStarted()) {
         for (auto i = 0; i < 100000;++i) {
 
         }

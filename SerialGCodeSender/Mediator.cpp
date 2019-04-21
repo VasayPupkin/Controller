@@ -25,7 +25,7 @@ void Mediator::run()
 //    appSettingsManager_.data()->writeDefaultSetting();
 
     //Download file from server, yet constant link
-    downloadManager_->execute(constants::appSettings::DEFAULT_FILE_DOWNLOAD_LINK);
+//    downloadManager_->execute(constants::appSettings::DEFAULT_FILE_DOWNLOAD_LINK);
 
     //TODO : check true/false of parseGCodeFile
     fileParser_.data()->parseGCodeFile(fileName_);

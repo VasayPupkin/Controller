@@ -15,6 +15,9 @@ public:
 
     bool openSerialPort(const QString& serialPort, int baudRate);
 
+    void setPrintStarted(bool printIsStarted){ printIsStarted_ = printIsStarted; }
+    bool isPrintStarted() const { return  printIsStarted_; }
+
 signals:
     void sendMessage(QString msg);
     void startNextPrintStep();
@@ -25,6 +28,7 @@ public slots:
     void dataReceived();
 
 private:
+    bool printIsStarted_{false};
     QSerialPort serialPort_;
     int baudRate_;
     QQueue<QByteArray> dataQueue_;
