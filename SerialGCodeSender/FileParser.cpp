@@ -1,5 +1,6 @@
 #include "FileParser.h"
 #include "Constants.h"
+#include <QCoreApplication>
 
 FileParser::FileParser(QObject *parent) : QObject(parent)
 {
@@ -70,6 +71,7 @@ void FileParser::parseAndSendNextLine()
         }
         else {
             emit fileOpenError("All file is sended!!!");
+            gCodeFile_.close();
         }
     }
     else
