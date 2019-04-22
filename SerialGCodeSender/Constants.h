@@ -49,6 +49,14 @@ const int DEFAULT_PARITY{static_cast<int>(QSerialPort::Parity::NoParity)};
 const int DEFAULT_STOP_BITS{static_cast<int>(QSerialPort::StopBits::OneStop)};
 
 //File parser
+const QString LAST_SENDED_LINE{"lastSendedLine"};
+const QString LAST_SENDED_CMD{"lastSendedCmd"};
+const QString LAST_SENDED_CMD_RESULT{"lastSendedCmdResult"};
+
+const int DEFAULT_LAST_SENDED_LINE{0};
+const QString DEFAULT_LAST_SENDED_CMD{""};
+const bool DEFAULT_LAST_SENDED_CMD_RESULT{false};
+
 
 //Download manager
 const QString FILE_DOWNLOAD_LINK{"fileDownloadLink"};

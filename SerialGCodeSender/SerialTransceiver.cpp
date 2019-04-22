@@ -14,8 +14,6 @@ SerialTransceiver::~SerialTransceiver()
 
 bool SerialTransceiver::openSerialPort(const QString &serialPort, int baudRate)
 {
-//    QSerialPortInfo portInfo;
-
     serialPort_.setPortName(serialPort);
     serialPort_.setBaudRate(baudRate);
     if (serialPort_.open(QIODevice::ReadWrite)){
@@ -27,12 +25,17 @@ bool SerialTransceiver::openSerialPort(const QString &serialPort, int baudRate)
     return false;
 }
 
+bool SerialTransceiver::parseReceivedData(QByteArray &data)
+{
+    QList<QByteArray> list = data.split('\n');
+    return list.contains("ok");
+}
+
 void SerialTransceiver::setDataQueue(QList<QByteArray> list)
 {
     for(auto element : list){
         dataQueue_.enqueue(element);
     }
-//    dataQueue_.fromStdList(list.toStdList());
 }
 
 void SerialTransceiver::sendData()
@@ -54,9 +57,20 @@ void SerialTransceiver::dataReceived()
     emit sendMessage(constants::serialTransceiver::DATA_IS_RECIVED + data);
     //TODO : if recieved data == ok? then emit startNextPrintStep();
     if (!data.isEmpty() && isPrintStarted()) {
-        for (auto i = 0; i < 100000;++i) {
+        if (parseReceivedData(data))
+            emit startNextPrintStep();
+    }
+}
 
-        }
-        emit startNextPrintStep();
+void SerialTransceiver::startPrintProcess()
+{
+    setPrintStarted(true);
+}
+
+void SerialTransceiver::sendCurrentCmd(QString currentCmd)
+{
+    if(isPrintStarted()){
+        emit sendMessage(constants::serialTransceiver::CMD_IS_SEND + currentCmd);
+        serialPort_.write(currentCmd.toStdString().c_str());
     }
 }

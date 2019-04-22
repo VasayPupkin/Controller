@@ -93,6 +93,9 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             }
         }
     }
+
+    currentDownloads_.removeAll(reply);
+    reply->deleteLater();
 }
 
 void DownloadManager::sslErrors(const QList<QSslError> &sslErrors)

@@ -17,6 +17,7 @@ public:
 
     void setPrintStarted(bool printIsStarted){ printIsStarted_ = printIsStarted; }
     bool isPrintStarted() const { return  printIsStarted_; }
+    bool parseReceivedData(QByteArray &data);
 
 signals:
     void sendMessage(QString msg);
@@ -26,6 +27,8 @@ public slots:
     void setDataQueue(QList<QByteArray> list);
     void sendData();
     void dataReceived();
+    void startPrintProcess();
+    void sendCurrentCmd(QString currentCmd);
 
 private:
     bool printIsStarted_{false};
