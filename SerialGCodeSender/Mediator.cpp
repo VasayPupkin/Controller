@@ -37,6 +37,7 @@ void Mediator::run()
         return;
     }
     if (serialTransceiver_.data()->openSerialPort(portName_,baudRate)){
+        serialTransceiver_.data()->startPrintProcess();
         emit startPrintProcess();
     }
 }
@@ -52,7 +53,7 @@ void Mediator::createObjects(){
 void Mediator::connectObjects(){
     connect(this, SIGNAL(sendMessage(QString)), inOutStream_.data(), SLOT(printToStdOut(QString)));
     //TODO : think about signal races, maybe use direct function call for start
-    connect(this, SIGNAL(startPrintProcess()), serialTransceiver_.data(), SLOT(startPrintProcess()));
+//    connect(this, SIGNAL(startPrintProcess()), serialTransceiver_.data(), SLOT(startPrintProcess()));
     connect(this, SIGNAL(startPrintProcess()), fileParser_.data(), SLOT(parseAndSendNextLine()));
 
     connect(fileParser_.data(), SIGNAL(fileOpenError(QString)),
