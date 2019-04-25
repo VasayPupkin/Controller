@@ -58,8 +58,8 @@ void Mediator::connectObjects(){
 
     connect(fileParser_.data(), SIGNAL(fileOpenError(QString)),
             inOutStream_.data(), SLOT(printToStdOut(QString)));
-    connect(fileParser_.data(), SIGNAL(fileIsParsed(QList<QByteArray>)),
-            serialTransceiver_.data(), SLOT(setDataQueue(QList<QByteArray>)));
+//    connect(fileParser_.data(), SIGNAL(fileIsParsed(QList<QByteArray>)),
+//            serialTransceiver_.data(), SLOT(setDataQueue(QList<QByteArray>)));
     connect(fileParser_.data(), SIGNAL(currentLineIsParsed(QString)),
             serialTransceiver_.data(), SLOT(sendCurrentCmd(QString)));
 
