@@ -1,6 +1,8 @@
 #include "DownloadManager.h"
 #include "Constants.h"
 
+#include <QThread>
+
 DownloadManager::DownloadManager(QObject *parent) : QObject(parent)
 {
     connect(&manager_, SIGNAL(finished(QNetworkReply*)),
@@ -9,6 +11,8 @@ DownloadManager::DownloadManager(QObject *parent) : QObject(parent)
 
 void DownloadManager::doDownload(const QUrl &url)
 {
+    uint64_t *id = static_cast<uint64_t*>(this->thread()->currentThreadId());
+    emit sendInfoMsg("downloadFinished thread = " + QString::number(*id));
     QNetworkRequest request(url);
     QNetworkReply *reply = manager_.get(request);
 
@@ -69,12 +73,16 @@ bool DownloadManager::isHttpRedirect(QNetworkReply *reply)
 
 void DownloadManager::execute(const QString &linkToFile)
 {
+    uint64_t *id = static_cast<uint64_t*>(this->thread()->currentThreadId());
+    emit sendInfoMsg("downloadFinished thread = " + QString::number(*id));
     QUrl url = QUrl::fromEncoded(linkToFile.toLocal8Bit());
     doDownload(url);
 }
 
 void DownloadManager::downloadFinished(QNetworkReply *reply)
 {
+    uint64_t *id = static_cast<uint64_t*>(this->thread()->currentThreadId());
+    emit sendInfoMsg("downloadFinished thread = " + QString::number(*id));
     QUrl url = reply->url();
     if (reply->error()) {
         fprintf(stderr, "Download of %s failed: %s\n",
